@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+</head>
+<body class="bg-gray-100 p-4">
+
+    <div class="max-w-5xl mx-auto bg-emerald-300 p-8 rounded shadow-md">
+        <!-- logo  -->
+        <div class="w-1/2 justify-center mx-auto mb-9">
+            <img class="w-full h-auto" id="logo" src="./logo-no-background.png" alt="Responsive Image">
+        </div>
+
+        <div class="justify-between">
+            <!-- Text Content -->
+            <div class="w-1/2 ">
+
+                <h3 class="text-2xl font-bold text-purple-700">Dr. Muhammad Mustafizur Rahman</h3>
+                <p class="text-purple-600">MBBS, MCPS (Medicine), MD (Cardiology)
+                    Clinical & Interventional Cardiologist and Cardiac Electrophysiologist
+                    Assistant Professor, Cardiology
+                    National Institute of Cardiovascular Diseases & Hospital</p>
+            </div>
+            <!-- Image Content -->
+            
+        </div>
+          
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-purple-900">
+
+        <form id="prescriptionForm" class="space-y-4 ">
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                    <div>
+                        <label for="patientName" class="block text-base font-medium text-purple-500 ">Patient Name:</label>
+                        <input type="text" id="patientName" name="patientName" class="mt-1 p-2 w-full border rounded-md text-violet-700	">
+                    </div>
+                </div>
+                
+                <div>
+                    <div>
+                        <label for="patientAge" class="block text-base font-medium text-purple-500">Patient Age:</label>
+                        <input type="text" id="patientAge" name="patientAge" class="mt-1 p-2 w-full border rounded-md">
+                    </div>
+        
+                </div>
+                <div>
+                    <select id="gender" name="gender" class="mt-6 p-2 w-full border rounded-md text-purple-500">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="email" class="block text-base font-medium text-purple-500">Email:</label>
+                    <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+              </div>
+            <div>
+                <label for="history" class="block text-base font-medium text-purple-500">History:</label>
+                <textarea id="history" name="history" rows="1" class="mt-1 p-2 w-full border rounded-md"></textarea>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+                <!-- First item, takes up one-third of the width -->
+                <div class="col-span-1 p-4 rounded">
+                    <div>
+                        <label for="diagnosis" class="block text-base font-medium text-purple-500">Diagnosis:</label>
+                        <textarea id="diagnosis" name="diagnosis" rows="4" class="mt-1 p-2 w-full border rounded-md"></textarea>
+                    </div>
+                 
+                </div>
+    
+                <!-- Second item, takes up two-thirds of the width -->
+                <div class="col-span-2 p-4 rounded">
+                    <div>
+                        <label for="medication" class="block text-base font-medium text-purple-500">Medication:</label>
+                        <textarea id="medication" name="medication" rows="4" class="mt-1 p-2 w-full border rounded-md"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="instructions" class="block text-base font-medium text-purple-500">Instructions:</label>
+                <textarea id="instructions" name="instructions" rows="4" class="mt-1 p-2 w-full border rounded-md"></textarea>
+            </div>
+
+            <div class="space-x-2">
+                <button type="button" onclick="generatePDF()" class="bg-blue-500 text-white px-4 py-2 rounded-md ">Generate PDF</button>
+                <button type="button" onclick="sendEmail()" class="bg-purple-500 text-white px-4 py-2 rounded-md">Send Email</button>
+                <button type="button" onclick="printPDF()" class="bg-green-500 text-white px-4 py-2 rounded-md">Print PDF</button>
+            </div>
+            
+            
+        </form>
+
+    </div>
+
+    <script>
+        let uniqueId = Date.now(); // Generate a unique ID using timestamp
+        let filename = `${patientName}_Prescription_${uniqueId}.pdf`;
+        function generatePDF() {
+            let patientName = document.getElementById('patientName').value;
+            let patientAge = document.getElementById('patientAge').value;
+            let gender = document.getElementById('gender').value;
+            let email = document.getElementById('email').value;
+            let medication = document.getElementById('medication').value;
+            let history = document.getElementById('history').value;
+            let diagnosis = document.getElementById('diagnosis').value;
+            let instructions = document.getElementById('instructions').value;
+            
+
+            let content = `
+            <div class="mx-auto bg-emerald-300 rounded shadow-md">
+                    <!-- logo  -->
+                    <div class="w-1/2 justify-center mx-auto mb-9">
+                        <img class="w-full object-top" src="./logo-no-background.png" alt="Responsive Image">
+                    </div>
+
+                    <div class="justify-between">
+                        <!-- Text Content -->
+                        <div class="w-1/2 ">
+
+                            <h3 class="text-2xl font-bold text-purple-700">Dr. Muhammad Mustafizur Rahman</h3>
+                            <p class="text-purple-600">MBBS, MCPS (Medicine), MD (Cardiology)
+                                Clinical & Interventional Cardiologist and Cardiac Electrophysiologist
+                                Assistant Professor, Cardiology
+                                National Institute of Cardiovascular Diseases & Hospital</p>
+                        </div>
+                        <div><p class="text-purple-600 text-right">ID: ${uniqueId}<p></div>
+                    </div>
+                        <!-- cole doc name file -->
+                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-purple-900">
+
+                        <form id="prescriptionForm" class="space-y-4 ">
+                            <div class="grid grid-cols-2 gap-4 bg-fuchsia-200">
+                                <div>
+                                        <label for="patientName" class="block text-base font-medium text-purple-900">Patient Name: ${patientName}</label>
+                                </div>
+                                <div>
+                                        <label for="patientName" class="block text-base font-medium text-purple-900">Patient Age: ${patientAge}</label>
+                                </div>
+                                <div>
+                                        <label for="patientName" class="block text-base font-medium text-purple-900">Patient Gender: ${gender}</label>
+                                </div>
+                                <div>
+                                        <label for="patientName" class="block text-base font-medium text-purple-900">Patient Email: ${email}</label>
+                                </div>
+                            </div>
+                            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-purple-900">
+                            <div>
+                                <label for="history" class="block text-base font-medium text-purple-900">History: ${history}</label>
+                                
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4">
+                                <!-- First item, takes up one-third of the width -->
+                                <div class="col-span-1 p-4 rounded">
+                                    <div>
+                                        <label for="diagnosis" class="block text-base font-medium text-purple-900">Diagnosis: ${diagnosis}</label>
+                                        
+                                    </div>
+                                
+                                </div>
+                    
+                                <!-- Second item, takes up two-thirds of the width -->
+                                <div class="col-span-2 p-4 rounded">
+                                    <div>
+                                        <label for="medication" class="block text-base font-medium text-purple-900">Medication: </label>
+                                        <label for="medication" class="block text-base font-medium text-purple-900">        Rx,   ${medication}</label>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="instructions" class="block text-base font-medium text-purple-900">Instructions:  ${instructions}</label>
+                                
+                            </div>
+                            <div class="w-1/4 float-right pb-10">
+                                <img class="w-1/4 float-right pb-10" src="./signature.png" alt="" srcset="">
+                                <p float-right>signeture</p>
+                            </div>
+                        </form>
+
+            </div>
+            `;
+
+            let element = document.createElement('div');
+            element.innerHTML = content;
+            let filename = `${patientName}_Prescription_${uniqueId}.pdf`;
+            
+
+            html2pdf(element, {
+                margin: 10,
+                filename: filename,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            });
+        }
+        function sendEmail() {
+            let patientName = document.getElementById('patientName').value;
+            let patientAge = document.getElementById('patientAge').value;
+            let gender = document.getElementById('gender').value;
+            let email = document.getElementById('email').value;
+            let medication = document.getElementById('medication').value;
+            let history = document.getElementById('history').value;
+            let diagnosis = document.getElementById('diagnosis').value;
+            let instructions = document.getElementById('instructions').value;
+            
+
+            var content = `
+                ID: ${uniqueId}
+
+                Patient Name: ${patientName}    Age : ${patientAge}
+
+                Gender: ${gender}       Email: ${email}
+
+                History: ${history}
+
+                Medication: Rx,
+                                 ${medication}
+
+                Instructions: ${instructions}
+            `;
+
+            var subject = `Prescription for ${patientName}`;
+
+            var mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(content)}`;
+
+            window.location.href = mailtoLink;
+        }
+
+        function printPDF() {
+            generatePDF(); // Generating PDF before printing
+            window.print();
+        }
+    </script>
+
+</body>
+</html>

@@ -8,7 +8,10 @@ const Navbar = () => {
     const menuItems = <>
         <li><Link to='/' >Home</Link></li>
         <li><Link to='/appointment' >Appointment</Link></li>
-        <li><Link to='#' >About</Link></li>
+        {/* <li><Link to='#' >About</Link></li> */}
+        <a href="https://arefinreza.github.io/DocNet360/">Prescription  </a>
+        <li><Link to='/' >   </Link></li>
+        <a href="https://658c740cc5a8f91ef05c5bdb--jade-tiramisu-b233cd.netlify.app/">   Bmi </a>
         {
             user?.email ?
                 <>
